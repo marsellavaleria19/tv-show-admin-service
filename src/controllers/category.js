@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize")
-const Shows = require("../models/category")
+const Shows = require("../models/categories")
 
 exports.getAllCategories = async (req, res) => {
   try {

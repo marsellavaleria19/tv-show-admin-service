@@ -2,7 +2,7 @@ const dataSyncService = require("../service/tvShow");
 const Sequelize = require("sequelize");
 const dateFormat = require('date-fns')
 const Shows = require("../models/shows");
-const Category = require("../models/category");
+const Categories = require("../models/categories");
 
 exports.getAllShows = async (req, res) => {
   try {
@@ -51,7 +51,7 @@ exports.getAllShows = async (req, res) => {
       },
       include: [
         {
-          model: Category,
+          model: Categories,
           attributes: ["id", "name"],
         },
       ],
@@ -126,7 +126,7 @@ exports.detailShow = async (req, res) => {
   const shows = await Shows.findByPk(id, {
     include: [
       {
-        model: Category,
+        model: Categories,
         attributes: ["id", "name"],
       },
     ],
@@ -223,7 +223,7 @@ exports.getAllSyncShows = async (req, res) => {
       },
       include: [
         {
-          model: Category,
+          model: Categories,
           attributes: ["id", "name"],
         },
       ],
@@ -280,7 +280,7 @@ exports.countDataDasboard = async (req, res) => {
   try {
     const resultCountCategory = await Shows.findAll({
       attributes: [
-        [Sequelize.col("Category.name"), "category"],
+        [Sequelize.col("category.name"), "category"],
         [Sequelize.fn("COUNT", Sequelize.col("Shows.id")), "total"],
       ],
       where: {
@@ -290,11 +290,11 @@ exports.countDataDasboard = async (req, res) => {
       },
       include: [
         {
-          model: Category,
+          model: Categories,
           attributes: [],
         },
       ],
-      group: ["Category.name"],
+      group: ["category.name"],
       raw: true,
     });
 

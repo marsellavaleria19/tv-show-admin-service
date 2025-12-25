@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../helpers/database");
-const Category = require("./category.js");
+const Categories = require("./categories");
 
 const Shows = sequelize.define("shows", {
   id_show: {
@@ -39,8 +39,8 @@ const Shows = sequelize.define("shows", {
   },
 });
 
-Category.hasMany(Shows);
-Shows.belongsTo(Category, {
+Categories.hasMany(Shows);
+Shows.belongsTo(Categories, {
   foreignKey: "categoryId",
 });
 
