@@ -1,5 +1,7 @@
 require('dotenv').config();
-console.log('ENV CHECK:', process.env.MYSQLPORT, process.env.MYSQLUSER, process.env.MYSQLHOST);
+console.log("--- DEBUG ENV ---");
+console.log("ALL ENV KEYS:", Object.keys(process.env).filter(key => key.startsWith('MYSQL')));
+console.log("-----------------");
 const express = require('express');
 const cors = require('cors');
 const sequelize = require("./helpers/database");
