@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const sequelize = require("./helpers/database");
+
 
 require('dotenv').config();
 var app = express();
@@ -7,6 +9,11 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// add table to database
+sequelize.sync()
+  .then(() => console.log('Table created / synced'))
+  .catch(err => console.error(err))
 
 
 app.use('/tv-show',require('./routers'));
