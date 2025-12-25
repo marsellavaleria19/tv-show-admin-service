@@ -7,11 +7,4 @@ const sequelize = new Sequelize(MYSQLDATABASE, MYSQLUSER, MYSQLPASSWORD, {
   dialect: 'mysql'
 });
 
-console.log('MYSQL CONFIG:', {
-  host: process.env.MYSQLHOST,
-  port: process.env.MYSQLPORT,
-  db: process.env.MYSQLDATABASE,
-  user: process.env.MYSQLUSER,
-})
-
 module.exports = sequelize;
