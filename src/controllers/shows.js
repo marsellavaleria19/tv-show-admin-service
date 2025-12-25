@@ -281,7 +281,7 @@ exports.countDataDasboard = async (req, res) => {
     const resultCountCategory = await Shows.findAll({
       attributes: [
         [Sequelize.col("category.name"), "category"],
-        [Sequelize.fn("COUNT", Sequelize.col("Shows.id")), "total"],
+        [Sequelize.fn("COUNT", Sequelize.col("shows.id")), "total"],
       ],
       where: {
         premier_at: {
