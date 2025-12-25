@@ -20,6 +20,11 @@ const Shows = sequelize.define("shows", {
       },
     },
   },
+  id_tvmaze: {
+    type: Sequelize.INTEGER,
+    unique: true,
+    allowNull: true,
+  },
   description: {
     type: Sequelize.TEXT,
     allowNull: true,
@@ -40,9 +45,6 @@ const Shows = sequelize.define("shows", {
 });
 
 Categories.hasMany(Shows);
-Shows.belongsTo(Categories, {
-  foreignKey: "categoryId",
-});
-
+Shows.belongsTo(Categories);
 
 module.exports = Shows;

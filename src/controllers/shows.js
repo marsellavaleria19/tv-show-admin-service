@@ -1,6 +1,6 @@
 const dataSyncService = require("../service/tvShow");
 const Sequelize = require("sequelize");
-const dateFormat = require('date-fns')
+const dateFormat = require("date-fns");
 const Shows = require("../models/shows");
 const Categories = require("../models/categories");
 
@@ -175,6 +175,7 @@ exports.syncShows = async (req, res) => {
     const dataApi = await dataSyncService.fetchShowFromApi();
     const dataMapping = dataApi.map((item, index) => {
       return {
+        id_tvmaze:item.id,
         id_show: `SYNC000${index + 1}`,
         name_show: item.name,
         premier_at: item.premiered,
@@ -230,7 +231,10 @@ exports.getAllSyncShows = async (req, res) => {
       distinct: true,
       limit,
       offset,
-      order: [["last_synced_at", "DESC"]],
+      order: [
+        ["last_synced_at", "DESC"],
+        ["id", "DESC"],
+      ],
     });
 
     return res.json({
@@ -254,28 +258,26 @@ exports.getAllSyncShows = async (req, res) => {
 };
 
 exports.getLastSync = async (req, res) => {
-  try{
- const latestData = await Shows.findOne({
-    order: [['updatedAt', 'DESC']],
-  });
-  
-  res.json({ last_synced_at: latestData ? latestData.last_synced_at : null });
-  }
-  catch(error){
-     console.log(error);
+  try {
+    const latestData = await Shows.findOne({
+      order: [["updatedAt", "DESC"]],
+    });
+
+    res.json({ last_synced_at: latestData ? latestData.last_synced_at : null });
+  } catch (error) {
+    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Unexpected Error",
     });
   }
- 
 };
 
 exports.countDataDasboard = async (req, res) => {
-  const startDate = req.query.startDate || dateFormat.subMonths(new Date(),1);
+  const startDate = req.query.startDate || dateFormat.subMonths(new Date(), 1);
   const endDate = req.query.endDate || new Date();
 
-  console.log(startDate,endDate)
+  console.log(startDate, endDate);
 
   try {
     const resultCountCategory = await Shows.findAll({
@@ -308,7 +310,7 @@ exports.countDataDasboard = async (req, res) => {
           [Sequelize.Op.between]: [startDate, endDate],
         },
       },
-      group: [Sequelize.literal('DATE(`premier_at`)')],
+      group: [Sequelize.literal("DATE(`premier_at`)")],
     });
 
     const resultCountAllData = await Shows.count({
@@ -324,7 +326,7 @@ exports.countDataDasboard = async (req, res) => {
       data: {
         byCategory: resultCountCategory,
         byPremierDate: resultCountPremierDate,
-        totalData:resultCountAllData
+        totalData: resultCountAllData,
       },
     });
   } catch (error) {
