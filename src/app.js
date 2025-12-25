@@ -10,6 +10,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+sequelize.authenticate()
+  .then(() => console.log('MySQL connected!'))
+  .catch(err => console.error('MySQL connection error:', err));
+
 // add table to database
 sequelize.sync()
   .then(() => console.log('Table created / synced'))
