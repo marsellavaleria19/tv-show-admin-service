@@ -1,4 +1,5 @@
-require('dotenv').config();
+// require('dotenv').config();
+console.log('ENV CHECK:', process.env.MYSQLPORT, process.env.MYSQLUSER, process.env.MYSQLHOST);
 const express = require('express');
 const cors = require('cors');
 const sequelize = require("./helpers/database");
