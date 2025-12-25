@@ -175,7 +175,7 @@ exports.syncShows = async (req, res) => {
     const dataApi = await dataSyncService.fetchShowFromApi();
     const dataMapping = dataApi.map((item, index) => {
       return {
-        id_tvmaze:item.id,
+        id_tvmaze: item.id,
         id_show: `SYNC000${index + 1}`,
         name_show: item.name,
         premier_at: item.premiered,
@@ -260,7 +260,8 @@ exports.getAllSyncShows = async (req, res) => {
 exports.getLastSync = async (req, res) => {
   try {
     const latestData = await Shows.findOne({
-      order: [["updatedAt", "DESC"]],
+      last_synced_at: { [Sequelize.Op.not]: null },
+      order: [["last_synced_at", "DESC"]],
     });
 
     res.json({ last_synced_at: latestData ? latestData.last_synced_at : null });
