@@ -165,7 +165,7 @@ exports.deleteShow = async (req, res) => {
 exports.syncShows = async (req, res) => {
   try {
     // GET DATA CATEGORY
-    const allCategories = await Category.findAll();
+    const allCategories = await Categories.findAll();
     const categoryMap = {};
     allCategories.forEach((item) => {
       categoryMap[item.name] = item.id;
